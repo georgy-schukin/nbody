@@ -1,7 +1,8 @@
 #include "quadtree.h"
 
-void QuadTree::populate(Body *bodies, const int &num_of_bodies, const Domain2D &domain) {	
-	root.reset(new QuadTreeNode(getExpandedDomain(bodies, num_of_bodies, domain)));
+void QuadTree::populate(Body *bodies, const int &num_of_bodies, const Domain2D &domain) {
+    const Domain2D expanded_domain = getExpandedDomain(bodies, num_of_bodies, domain); // expand top domain to include all bodies
+    root.reset(new QuadTreeNode(expanded_domain));
     for (int i = 0; i < num_of_bodies; i++) {
         root->insertBody(&bodies[i]); // insert bodies in the tree
     }
@@ -15,7 +16,7 @@ Vector2D QuadTree::computeForce(Body *body, const double &theta) const {
 Domain2D QuadTree::getExpandedDomain(Body *bodies, const int &num_of_bodies, const Domain2D &domain) const {
 	Domain2D expanded_domain = domain;
 	for (int i = 0; i < num_of_bodies; i++) {
-		expanded_domain.expand(bodies[i].coordinate);
+        expanded_domain.expand(bodies[i].coordinate);
 	}
 	return expanded_domain;
 }

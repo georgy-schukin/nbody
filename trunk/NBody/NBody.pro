@@ -9,6 +9,6 @@ SOURCES += \
 
 HEADERS += \
     vector2d.h \
-    body.h \
-    domain2d.h
+    domain2d.h \
+    body.h
 

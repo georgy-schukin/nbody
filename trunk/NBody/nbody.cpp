@@ -12,9 +12,10 @@ void initBodies(Body *bodies, const int &num_of_bodies, const Domain2D &domain) 
 
 void computeForces(Body *bodies, const int &num_of_bodies) {
     for (int i = 0; i < num_of_bodies; i++) {
-
         bodies[i].force = 0.0; // null force
+    }
 
+    for (int i = 0; i < num_of_bodies; i++) {
         for (int j = i + 1; j < num_of_bodies; j++) {
             const Vector2D force_ij = bodies[i].computeForce(bodies[j]);
             bodies[i].force += force_ij;

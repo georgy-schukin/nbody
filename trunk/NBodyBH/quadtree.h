@@ -17,10 +17,7 @@ public:
     QuadTree(Body *bodies, const int &num_of_bodies, const Domain2D &domain) : root(0) {        
         populate(bodies, num_of_bodies, domain);
     }
-    ~QuadTree() {
-        /*if (root)
-            delete root;*/
-    }
+    ~QuadTree() {}
 
     int getHeight() const {
         return root->getHeight();
