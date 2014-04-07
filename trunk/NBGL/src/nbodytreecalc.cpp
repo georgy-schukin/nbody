@@ -11,6 +11,6 @@ void NBodyTreeCalc::computeForcesWithTree() {
 
 	#pragma omp parallel
     for (size_t i = 0; i < bodies.size(); i++) {     
-        bodies[i].force = tree.computeForce(&bodies[i], 1.0);		
+        bodies[i].force = tree.computeForce(&bodies[i], 1.0);
     }
 }
