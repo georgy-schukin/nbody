@@ -10,7 +10,7 @@ NBodyVisualizer visualizer;
 
 const Domain2D domain(-10, 10, -10, 10);
 const int NUM_OF_BODIES = 10000;
-//const int NUM_OF_THREADS = 4;
+const int NUM_OF_THREADS = 4;
 
 
 void Reshape(int width, int height)
@@ -37,7 +37,7 @@ void Draw(void)
 
 	visualizer.draw();
 
-	glFlush();  
+    glutSwapBuffers();
 }
 
 void init() {
@@ -46,8 +46,13 @@ void init() {
 }
 
 void update() {
-	calc.compute(0.01);
+    double time_s = omp_get_wtime();
+    calc.compute(0.01);
+    double time_e = omp_get_wtime();
+    printf("Next step: %.5f seconds to compute\n", time_e - time_s);
+
 	visualizer.update(calc.getBodies().data(), calc.getBodies().size());
+
 	Draw();	
 }
 
@@ -55,7 +60,7 @@ int main(int argc, char *argv[]) {
 	glutInit(&argc, argv);
 	glutInitWindowSize(600, 600);
 	
-	glutInitDisplayMode(GLUT_RGBA);
+    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
 	glutCreateWindow("N-Body simulation");
 
 	glutReshapeFunc(Reshape);
@@ -70,7 +75,7 @@ int main(int argc, char *argv[]) {
 		printf("GLEW init ERROR : %s\n", glewGetErrorString(err));
 	}
 
-	//omp_set_num_threads(NUM_OF_THREADS);
+    //omp_set_num_threads(NUM_OF_THREADS);
 
 	init();
 
