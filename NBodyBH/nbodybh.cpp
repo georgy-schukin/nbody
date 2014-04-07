@@ -21,16 +21,9 @@ void updateBodies(Body *bodies, const int &num_of_bodies, const double &dt) {
     }
 }
 
-Domain2D& expandDomain(Domain2D &domain, Body *bodies, const int &num_of_bodies) {
-	for (int i = 0; i < num_of_bodies; i++) {
-        domain.expand(bodies[i].coordinate);
-	}	
-    return domain;
-}
-
 int main(int argc, char **argv) {
 
-    const int NUM_OF_BODIES_DEFAULT = 100000;
+    const int NUM_OF_BODIES_DEFAULT = 1000;
     const int NUM_OF_TIME_STEPS_DEFAULT = 10;
 
     const int num_of_bodies = (argc > 1) ? atoi(argv[1]) : NUM_OF_BODIES_DEFAULT;
@@ -50,7 +43,7 @@ int main(int argc, char **argv) {
     initBodies(bodies, num_of_bodies, domain);
 
     for (int t = 0; t < num_of_time_steps; t++) {        
-        QuadTree tree(bodies, num_of_bodies, expandDomain(domain, bodies, num_of_bodies));
+        QuadTree tree(bodies, num_of_bodies, domain);
         computeForces(bodies, num_of_bodies, tree, theta);
         updateBodies(bodies, num_of_bodies, delta_t);
         //printf("%d %d\n", tree.getHeight(), tree.getSize());
