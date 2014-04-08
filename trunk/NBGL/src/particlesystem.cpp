@@ -11,7 +11,7 @@ void ParticleSystem::init(const Body *bodies, const int &num) {
 	glGenBuffers(1, &coord_buffer);	
 
 	glBindBuffer(GL_ARRAY_BUFFER, coord_buffer);
-	glBufferData(GL_ARRAY_BUFFER, 2*num_of_particles*sizeof(GLfloat), coords.get(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, 2*num_of_particles*sizeof(GLfloat), coords.get(), GL_DYNAMIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	GLuint *ind = indices.get();
@@ -42,7 +42,7 @@ void ParticleSystem::fillCoords(GLfloat *buf, const Body *bodies, const int &num
 }
 
 void ParticleSystem::draw() {	
-	glColor3f(1.0f, 1.0f, 1.0f);
+    //glColor3f(1.0f, 1.0f, 1.0f);
 	glPointSize(5.0f);
 
 	glEnable(GL_TEXTURE_2D);
