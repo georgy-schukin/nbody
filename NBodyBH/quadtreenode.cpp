@@ -34,12 +34,10 @@ bool QuadTreeNode::computeMassCenter() {
             if (children[i].get() && children[i]->computeMassCenter()) {
                 const Body &mc = children[i]->getMassCenter();
                 mass_center.mass += mc.mass;
-                mass_center.coordinate.x += mc.coordinate.x*mc.mass;
-                mass_center.coordinate.y += mc.coordinate.y*mc.mass;
+                mass_center.coordinate += mc.coordinate*mc.mass;
             }
         }
-        mass_center.coordinate.x /= mass_center.mass;
-        mass_center.coordinate.y /= mass_center.mass;
+        mass_center.coordinate /= mass_center.mass;
     }
     return true;
 }
@@ -56,7 +54,7 @@ Vector2D QuadTreeNode::computeForce(Body *target, const double &theta) const {
         if (domain.width() / dist < theta) { // check approximation condition
             return target->computeForce(mass_center); // make approximation with mass center
         } else {
-            Vector2D force;
+            Vector2D force = 0.0;
             for (int i = 0; i < NUM_OF_CHILDREN; i++) {
                 if (children[i].get())
                     force += children[i]->computeForce(target, theta); // sum force from children

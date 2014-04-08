@@ -13,7 +13,7 @@ const int NUM_OF_BODIES = 10000;
 const int NUM_OF_THREADS = 4;
 
 
-void Reshape(int width, int height)
+void reshape(int width, int height)
 {
 	const float scale = 4.0f;
 	const float aspect = float(width) / float (height);	
@@ -31,7 +31,7 @@ void Reshape(int width, int height)
 	glMatrixMode(GL_MODELVIEW);
 }
 
-void Draw(void)
+void draw(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 
@@ -45,15 +45,18 @@ void init() {
 	visualizer.init(calc.getBodies().data(), calc.getBodies().size());
 }
 
-void update() {
+void compute() {
+    static int step = 0;
+
     double time_s = omp_get_wtime();
     calc.compute(0.01);
     double time_e = omp_get_wtime();
-    printf("Next step: %.5f seconds to compute\n", time_e - time_s);
+
+    printf("Step %d: %.5f seconds to compute\n", ++step, time_e - time_s);
 
 	visualizer.update(calc.getBodies().data(), calc.getBodies().size());
 
-	Draw();	
+    glutPostRedisplay();
 }
 
 int main(int argc, char *argv[]) {	
@@ -63,11 +66,11 @@ int main(int argc, char *argv[]) {
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
 	glutCreateWindow("N-Body simulation");
 
-	glutReshapeFunc(Reshape);
-	glutDisplayFunc(Draw);
-	glutIdleFunc(update);		
+    glutReshapeFunc(reshape);
+    glutDisplayFunc(draw);
+    glutIdleFunc(compute);
 
-	glShadeModel(GL_SMOOTH);      
+    //glShadeModel(GL_SMOOTH);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	GLenum err;

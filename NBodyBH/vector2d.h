@@ -13,6 +13,7 @@ public:
 
 public:
     Vector2D() : x(0.0), y(0.0) {}
+    Vector2D(const double &val) : x(val), y(val) {}
     Vector2D(const double &xx, const double &yy) : x(xx), y(yy) {}
     ~Vector2D() {}
 
@@ -34,6 +35,15 @@ public:
     void operator-=(const Vector2D &v) {
         x -= v.x;
         y -= v.y;
+    }
+
+    void operator/=(const double &val) {
+        x /= val;
+        y /= val;
+    }
+
+    Vector2D operator*(const double &val) const {
+        return Vector2D(x*val, y*val);
     }
 
     bool operator==(const Vector2D &v) const {
