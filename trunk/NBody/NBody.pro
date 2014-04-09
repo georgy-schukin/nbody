@@ -3,6 +3,9 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
+QMAKE_CXXFLAGS += -openmp
+QMAKE_LFLAGS += -openmp
+
 SOURCES += \
     nbody.cpp \
     body.cpp
