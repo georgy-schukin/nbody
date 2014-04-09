@@ -4,7 +4,8 @@
 
 void Body::init(const Domain2D &domain) {
     static const double PI = 3.14159;
-    const double angle = double(rand() % 360) * PI / 180.0;
+    static const double PI_RAD = PI / 180.0;
+    const double angle = double(rand() % 360) * PI_RAD;
     const double radius = (domain.width() / 2.0) * double(rand() % 1000) / 1000.0;
     //coordinate.x = domain.left + domain.width() * double(rand() % 1000) / 1000.0;
     //coordinate.y = domain.bottom + domain.height() * double(rand() % 1000) / 1000.0;

@@ -15,6 +15,14 @@ unix {
     QMAKE_LFLAGS_RELEASE += -fopenmp
 }
 
+win32 {
+    INCLUDEPATH += "D:/Distribs/GL/include"
+    LIBS += -L"D:/Distribs/GL/libs" -lopengl32 -lglu32 -lfreeglut -lglew32 -lSOIL
+    QMAKE_CXXFLAGS += -openmp
+    QMAKE_LFLAGS_DEBUG += -openmp
+    QMAKE_LFLAGS_RELEASE += -openmp
+}
+
 SOURCES += \
     ../../src/nbgl.cpp \
     ../../src/nbodycalc.cpp \
