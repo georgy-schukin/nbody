@@ -8,9 +8,9 @@ void NBodyCalc::initBodies(const int &num, const Domain2D &domain) {
 
 	bodies.resize(num);
 
-	srand(time(0));    
+    srand((unsigned int)time(NULL));
     for (int i = 0; i < (int)bodies.size(); i++)
-        bodies[i].init(domain);		
+        bodies[i].init(domain);		    
 }
 
 void NBodyCalc::compute(const double &dt) {
@@ -26,9 +26,11 @@ void NBodyCalc::computeForces() {
     #pragma omp parallel for
     for (int i = 0; i < (int)bodies.size(); i++) {
         for (int j = 0; j < (int)bodies.size(); j++) {
-            const Vector2D force_ij = bodies[i].computeForce(bodies[j]);
-            bodies[i].force += force_ij;
-            //bodies[j].force -= force_ij; // Fij = -Fji
+            if (i != j) {
+                const Vector2D force_ij = bodies[i].computeForce(bodies[j]);
+                bodies[i].force += force_ij;
+                //bodies[j].force -= force_ij; // Fij = -Fji
+            }
         }
     }
 }
