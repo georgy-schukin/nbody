@@ -3,34 +3,39 @@
 void ParticleSystem::init(const Body *bodies, const int &num) {	
 	num_of_particles = num;
 
-	coords.reset(new GLfloat[2*num_of_particles]);	
-	indices.reset(new GLuint[num_of_particles]);
+    //coords.reset(new GLfloat[2*num_of_particles]);
+    //indices.reset(new GLuint[num_of_particles]);
 
-	fillCoords(coords.get(), bodies, num);
+    //fillCoords(coords.get(), bodies, num);
 
 	glGenBuffers(1, &coord_buffer);	
 
 	glBindBuffer(GL_ARRAY_BUFFER, coord_buffer);
-    glBufferData(GL_ARRAY_BUFFER, 2*num_of_particles*sizeof(GLfloat), coords.get(), GL_DYNAMIC_DRAW);
+    //glBufferData(GL_ARRAY_BUFFER, 2*num_of_particles*sizeof(GLfloat), coords.get(), GL_STREAM_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, 2*num_of_particles*sizeof(GLfloat), NULL, GL_STREAM_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+    update(bodies, num);
 
-	GLuint *ind = indices.get();
+    /*GLuint *ind = indices.get();
 	for (int i = 0; i < num_of_particles; i++)
 		ind[i] = i;
 
 	glGenBuffers(1, &indices_buffer);	
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_buffer);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, num_of_particles*sizeof(GLuint), indices.get(), GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);*/
 
 	sprite.load("textures/circle_t.png");	
 }
 
 void ParticleSystem::update(const Body *bodies, const int &num) {
-	fillCoords(coords.get(), bodies, num);
+    //fillCoords(coords.get(), bodies, num);
 
 	glBindBuffer(GL_ARRAY_BUFFER, coord_buffer);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, 2*num_of_particles*sizeof(GLfloat), coords.get());
+    GLfloat *buf = (GLfloat*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+    fillCoords(buf, bodies, num);
+    glUnmapBuffer(GL_ARRAY_BUFFER);
+    //glBufferSubData(GL_ARRAY_BUFFER, 0, 2*num_of_particles*sizeof(GLfloat), coords.get());
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
@@ -55,15 +60,16 @@ void ParticleSystem::draw() {
 	sprite.bind();
 
 	glBindBuffer(GL_ARRAY_BUFFER, coord_buffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_buffer);
+    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_buffer);
 	glEnableClientState(GL_VERTEX_ARRAY);
 
 	glVertexPointer(2, GL_FLOAT, 0, 0); 			
-	glDrawElements(GL_POINTS, num_of_particles, GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_POINTS, 0, num_of_particles);
+    //glDrawElements(GL_POINTS, num_of_particles, GL_UNSIGNED_INT, 0);
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);	
+    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	sprite.unbind();
 
