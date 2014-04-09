@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <omp.h>
 
+//NBodyCalc calc;
 NBodyTreeCalc calc;
 NBodyVisualizer visualizer;
 
@@ -19,7 +20,7 @@ void reshape(int width, int height)
 	const float aspect = float(width) / float (height);	
 
 	const Domain2D area(aspect*scale*domain.left, aspect*scale*domain.right, scale*domain.bottom, scale*domain.top);
-	const float max = area.width() > area.height() ? area.width() : area.height();
+    const double max = area.width() > area.height() ? area.width() : area.height();
 	const Domain2D v_area(-max/2.0, max/2.0, -max/2.0, max/2.0);	
 
 	visualizer.setArea(v_area);
@@ -70,7 +71,6 @@ int main(int argc, char *argv[]) {
     glutDisplayFunc(draw);
     glutIdleFunc(compute);
 
-    //glShadeModel(GL_SMOOTH);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	GLenum err;
@@ -78,7 +78,7 @@ int main(int argc, char *argv[]) {
 		printf("GLEW init ERROR : %s\n", glewGetErrorString(err));
 	}
 
-    //omp_set_num_threads(NUM_OF_THREADS);
+    omp_set_num_threads(NUM_OF_THREADS);
 
 	init();
 

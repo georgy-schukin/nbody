@@ -11,7 +11,7 @@ void QuadTreeNode::insertBody(Body *new_body) {
             Body *old_body = body;
             body = 0;
             if (new_body->coordinate == old_body->coordinate) { 
-                new_body->coordinate += Vector2D(1e-7, 1e-7); // fix equal coordinates
+                new_body->coordinate += Vector2D(1e-5, 1e-5); // fix equal coordinates
             }            
             getChild(old_body->coordinate)->insertBody(old_body); // subdivide domain and insert bodies to subdomains
             getChild(new_body->coordinate)->insertBody(new_body);
