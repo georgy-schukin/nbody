@@ -46,9 +46,8 @@ void ParticleSystem::fillCoords(GLfloat *buf, const Body *bodies, const int &num
 	}
 }
 
-void ParticleSystem::draw() {	
-    //glColor3f(1.0f, 1.0f, 1.0f);
-	glPointSize(5.0f);
+void ParticleSystem::draw() {	    
+    glPointSize(5.0f);
 
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
