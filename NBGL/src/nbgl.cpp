@@ -84,7 +84,6 @@ int main(int argc, char *argv[]) {
     glutMouseWheelFunc(mouseWheel);
     glutIdleFunc(compute);
 
-    //glEnable(GL_MULTISAMPLE);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	GLenum err;
