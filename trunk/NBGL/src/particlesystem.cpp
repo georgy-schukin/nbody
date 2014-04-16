@@ -78,10 +78,8 @@ void ParticleSystem::draw() {
 }
 
 void ParticleSystem::clear() {
-/*	if (coord_buffer)
-		glDeleteBuffers(1, &coord_buffer);
-	if (indices_buffer)
-		glDeleteBuffers(1, &indices_buffer);*/
-	coord_buffer = 0;
-	indices_buffer = 0;	
+    /*if (glIsBuffer(coord_buffer))
+        glDeleteBuffers(1, &coord_buffer);*/
+    /*if (glIsBuffer(indices_buffer))
+        glDeleteBuffers(1, &indices_buffer);*/
 }
