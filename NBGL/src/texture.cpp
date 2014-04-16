@@ -25,7 +25,6 @@ void Texture::unbind() {
 }
 
 void Texture::clear() {
-	if (texture_id != -1)
-		glDeleteTextures(1, &texture_id);	
-	texture_id = 0;	
+    if (glIsTexture(texture_id))
+		glDeleteTextures(1, &texture_id);		
 }
